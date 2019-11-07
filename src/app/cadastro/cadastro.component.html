@@ -1,0 +1,261 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="bower_components/ng-cpf-cnpj-validate/validate-cpf-directive.js"></script>
+<script src="bower_components/ng-cpf-cnpj-validate/validate-cnpj-directive.js"></script>
+
+<form class="form-horizontal" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <mat-card class="card">
+    <legend class="demo-legend"><strong>Cadastro de Cliente</strong></legend>
+    <!-- <mat-card-header class="cabecalho">
+      <mat-card-title>
+        Cadastro
+      </mat-card-title>
+    </mat-card-header> -->
+
+
+    <div class="form-group">
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('nome')">
+        <label for="nome" class="control-label">Nome Completo</label>
+        <input type="text" class="form-control" formControlName="nome" id="nome">
+        <app-error-msg [control]="formulario.get('nome')" label="Nome"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('nacionalidade')">
+        <label for="nacionalidade" class="control-label">Nacionalidade</label>
+        <select class="form-control" id="nacionalidade" formControlName="nacionalidade">
+          <option *ngFor="let nacionalidade of nacionalidades" [ngValue]="nacionalidade">{{ nacionalidade.nome }}
+          </option>
+        </select>
+        <app-error-msg [control]="formulario.get('nacionalidade')" label="Nacionalidade"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('genero')">
+        <label for="genero" class="control-label">Gênero</label>
+        <select class="form-control" formControlName="genero" id="genero">
+          <option *ngFor="let genero of generos" [ngValue]="genero">{{ genero.desc }}</option>
+        </select>
+        <app-error-msg [control]="formulario.get('genero')" label="Gênero"></app-error-msg>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-4" [ngClass]="aplicaCssErro('rg')">
+        <label for="rg" class="control-label">RG</label>
+        <input type="text" class="form-control" id="rg" formControlName="rg" [textMask]="{mask: rgMask}">
+        <app-error-msg [control]="formulario.get('rg')" label="RG"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('orgao')">
+        <label for="orgao" class="control-label">Orgão Expedidor</label>
+        <select class="form-control" formControlName="orgao" id="orgao">
+          <option *ngFor="let orgao of orgaos" [ngValue]="orgao">{{ orgao.nome }}</option>
+        </select>
+        <app-error-msg [control]="formulario.get('orgao')" label="Orgão"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('dataExpedicao')">
+        <label for="dataExpedicao" class="control-label">Data de Expedição</label>
+        <input type="date" class="form-control" formControlName="dataExpedicao" id="dataExpedicao">
+        <app-error-msg [control]="formulario.get('dataExpedicao')" label="Data de Expedição"></app-error-msg>
+      </div>
+    </div>
+
+    <div class="form-group">
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('diferente')">
+        <label for="diferente" class="control-label">Cidade de Nascimento</label>
+        <select class="form-control" id="diferente" formControlName="diferente">
+          <option *ngFor="let diferente of diferentes" [value]="diferente.nome">{{ diferente.nome }}</option>
+        </select>
+        <app-error-msg [control]="formulario.get('diferente')" label="Cidade de Nascimento"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('outro')">
+        <label for="outro" class="control-label">Estado de Nascimento</label>
+        <select class="form-control" id="outro" formControlName="outro">
+          <option *ngFor="let outro of outros" [value]="outro.sigla">{{ outro.nome }}</option>
+        </select>
+        <app-error-msg [control]="formulario.get('outro')" label="Estado de Nascimento"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('dataNascimento')">
+        <label for="dataNascimento" class="control-label">Data de Nascimento</label>
+        <input type="date" class="form-control" formControlName="dataNascimento" id="dataNascimento">
+        <app-error-msg [control]="formulario.get('dataNascimento')" label="Data de Nascimento"></app-error-msg>
+      </div>
+    </div>
+
+    <div class="form-group">
+
+      <div class="col-md-6" [ngClass]="aplicaCssErro('cpf')">
+        <label for="cpf" class="control-label">CPF</label>
+        <input type="text" class="form-control" id="cpf" formControlName="cpf" [textMask]="{mask: cpfMask}">
+        <app-error-msg [control]="formulario.get('cpf')" label="CPF"></app-error-msg>
+      </div>
+
+      <div class="col-md-6" [ngClass]="aplicaCssErro('estadoCivil')">
+        <label for="estadoCivil" class="control-label">Estado Civil</label>
+        <select class="form-control" formControlName="estadoCivil" id="estadoCivil">
+          <option *ngFor="let estadoCivil of estadoCivils" [ngValue]="estadoCivil">{{ estadoCivil.desc }}
+          </option>
+        </select>
+        <app-error-msg [control]="formulario.get('estadoCivil')" label="Estado Civil"></app-error-msg>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-6" [ngClass]="aplicaCssErro('nomeMae')">
+        <label for="nomeMae" class="control-label">Nome da Mãe</label>
+        <input type="text" class="form-control" formControlName="nomeMae" id="nomeMae">
+        <app-error-msg [control]="formulario.get('nomeMae')" label="Nome da Mãe"></app-error-msg>
+      </div>
+
+      <div class="col-md-6" [ngClass]="aplicaCssErro('nomePai')">
+        <label for="nomePai" class="control-label">Nome do Pai</label>
+        <input type="text" class="form-control" formControlName="nomePai" id="nomePai">
+        <app-error-msg [control]="formulario.get('nomePai')" label="Nome do Pai"></app-error-msg>
+      </div>
+
+    </div>
+
+    <div formGroupName="endereco">
+
+      <div class="form-group">
+
+        <div class="col-md-6" [ngClass]="aplicaCssErro('endereco.cep')">
+          <label for="cep" class="control-label">CEP</label>
+          <input type="text" class="form-control" id="cep" formControlName="cep">
+          <app-error-msg [control]="formulario.get('endereco.cep')" label="CEP"></app-error-msg>
+        </div>
+
+        <div class="col-md-3" [ngClass]="aplicaCssErro('endereco.numero')">
+          <label for="numero" class="control-label">Número</label>
+          <input type="text" class="form-control" id="numero" formControlName="numero">
+          <app-error-msg [control]="formulario.get('endereco.numero')" label="Número"></app-error-msg>
+        </div>
+
+        <div class="col-md-3">
+          <label for="complemento" class="control-label">Complemento</label>
+          <input type="text" class="form-control" id="complemento" formControlName="complemento">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-6" [ngClass]="aplicaCssErro('endereco.rua')">
+          <label for="rua" class="control-label">Rua</label>
+          <input type="text" class="form-control" id="rua" formControlName="rua">
+          <app-error-msg [control]="formulario.get('endereco.rua')" label="Rua"></app-error-msg>
+        </div>
+
+        <div class="col-md-3" [ngClass]="aplicaCssErro('endereco.estado')">
+          <label for="estado" class="control-label">Estado</label>
+          <select class="form-control" id="estado" formControlName="estado">
+            <option *ngFor="let estado of estados" [value]="estado.sigla">{{ estado.nome }}</option>
+          </select>
+          <app-error-msg [control]="formulario.get('endereco.estado')" label="Estado"></app-error-msg>
+        </div>
+
+        <div class="col-md-3" [ngClass]="aplicaCssErro('endereco.cidade')">
+          <label for="cidade" class="control-label">Cidade</label>
+          <select class="form-control" id="cidade" formControlName="cidade">
+            <option *ngFor="let cidade of cidades" [value]="cidade.nome">{{ cidade.nome }}</option>
+          </select>
+          <app-error-msg [control]="formulario.get('endereco.cidade')" label="Cidade"></app-error-msg>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+
+      <div class="col-md-6" [ngClass]="aplicaCssErro('email')">
+        <label for="email" class="control-label">Email</label>
+        <input type="email" class="form-control" formControlName="email" id="email" placeholder="nome@email.com">
+        <app-error-msg [control]="formulario.get('email')" label="Email"></app-error-msg>
+        <app-campo-control-erro [mostrarErro]="formulario.get('email').status === 'PENDING'"
+          msgErro="Validando email...">
+        </app-campo-control-erro>
+        <app-campo-control-erro [mostrarErro]="formulario.get('email').status === 'VALID'" msgErro="Email válido!">
+        </app-campo-control-erro>
+      </div>
+
+      <div class="col-md-6" [ngClass]="aplicaCssErro('confirmarEmail')">
+        <label for="confirmarEmail" class="control-label">Confirmar Email</label>
+        <input type="confirmarEmail" class="form-control" formControlName="confirmarEmail" id="confirmarEmail"
+          placeholder="nome@email.com">
+        <app-error-msg [control]="formulario.get('confirmarEmail')" label="Confirmar Email"></app-error-msg>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-4" [ngClass]="aplicaCssErro('celular')">
+        <label for="celular" class="control-label">Celular</label>
+        <input type="text" class="form-control" formControlName="celular" id="celular" [textMask]="{mask: celularMask}">
+        <app-error-msg [control]="formulario.get('celular')" label="Celular"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('telResidencial')">
+        <label for="telResidencial" class="control-label">Telefone Residencial</label>
+        <input type="text" class="form-control" formControlName="telResidencial" id="telResidencial" [textMask]="{mask: telresiMask}">
+        <app-error-msg [control]="formulario.get('telResidencial')" label="Telefone Residencial">
+        </app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('telComercial')">
+        <label for="telComercial" class="control-label">Telefone Comercial</label>
+        <input type="text" class="form-control" formControlName="telComercial" id="telComercial" [textMask]="{mask: telcomeMask}">
+        <app-error-msg [control]="formulario.get('telComercial')" label="Telefone Comercial"></app-error-msg>
+      </div>
+
+    </div>
+
+    <div class="form-group">
+
+      <div class="col-md-6" [ngClass]="aplicaCssErro('profissao')">
+        <label for="profissao" class="control-label">Profissão</label>
+        <input type="text" class="form-control" formControlName="profissao" id="profissao">
+        <app-error-msg [control]="formulario.get('profissao')" label="Profissão"></app-error-msg>
+      </div>
+
+      <div class="col-md-6" [ngClass]="aplicaCssErro('renda')">
+        <label for="renda" class="control-label">Renda Mensal</label>
+        <input type="text" class="form-control" formControlName="renda" id="renda">
+        <app-error-msg [control]="formulario.get('renda')" label="Renda Mensal"></app-error-msg>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-4" [ngClass]="aplicaCssErro('americano')">
+        <label for="americano" class="control-label">É cidadão americano?</label>
+        <select class="form-control" id="americano" formControlName="americano">
+          <option>Sim</option>
+          <option>Não</option>
+        </select>
+        <app-error-msg [control]="formulario.get('americano')" label="É cidadão americano?"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('agente')">
+        <label for="agente" class="control-label">É agente público?</label>
+        <select class="form-control" id="agente" formControlName="agente">
+          <option>Sim</option>
+          <option>Não</option>
+        </select>
+        <app-error-msg [control]="formulario.get('agente')" label="É agente público?"></app-error-msg>
+      </div>
+
+      <div class="col-md-4" [ngClass]="aplicaCssErro('servidor')">
+        <label for="servidor" class="control-label">É servidor público?</label>
+        <select class="form-control" id="servidor" formControlName="servidor">
+          <option>Sim</option>
+          <option>Não</option>
+        </select>
+        <app-error-msg [control]="formulario.get('servidor')" label="É servidor público?"></app-error-msg>
+      </div>
+
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-primary">CADASTRAR</button>
+    </div>
+  </mat-card>
+  <app-form-debug [form]="formulario"></app-form-debug>
+</form>
